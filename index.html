@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Divine Proportion - Phi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --marble-white: #F5F5F5;
+            --deep-olive: #4A5D3F;
+            --slate-grey: #6B7280;
+            --gold: #D4AF37;
+            --dark-bg: #2C2C2C;
+        }
+
+        body {
+            font-family: 'Crimson Text', serif;
+            background: var(--marble-white);
+            color: var(--dark-bg);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        /* Marble Texture Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(90deg, rgba(0,0,0,0.02) 1px, transparent 1px),
+                linear-gradient(rgba(0,0,0,0.02) 1px, transparent 1px);
+            background-size: 100px 100px;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            background: linear-gradient(rgba(44, 44, 44, 0.7), rgba(74, 93, 63, 0.5)), 
+                        url('https://images.unsplash.com/photo-1555993539-1732b0258235?w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--marble-white);
+            border-bottom: 8px solid var(--gold);
+            box-shadow: inset 0 -20px 40px rgba(0,0,0,0.3);
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: repeating-linear-gradient(
+                90deg,
+                var(--gold) 0px,
+                var(--gold) 20px,
+                transparent 20px,
+                transparent 40px
+            );
+        }
+
+        .hero h1 {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+            text-shadow: 3px 3px 12px rgba(0,0,0,0.8);
+            animation: fadeInScale 1.5s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .hero .subtitle {
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            font-style: italic;
+            letter-spacing: 0.05em;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            animation: fadeInUp 1.8s cubic-bezier(0.19, 1, 0.22, 1) 0.3s backwards;
+        }
+
+        .hero .phi-symbol {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(4rem, 10vw, 8rem);
+            color: var(--gold);
+            text-shadow: 0 0 30px rgba(212, 175, 55, 0.6);
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+            }
+            to {
+                text-shadow: 0 0 40px rgba(212, 175, 55, 0.8);
+            }
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        /* Section Styling */
+        section {
+            margin-bottom: 6rem;
+        }
+
+        .section-title {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--deep-olive);
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+
+        /* Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            margin-bottom: 4rem;
+        }
+
+        .content-grid.reverse {
+            direction: rtl;
+        }
+
+        .content-grid.reverse > * {
+            direction: ltr;
+        }
+
+        .content-box {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 3rem;
+            border: 3px solid var(--gold);
+            box-shadow: 
+                inset 0 0 20px rgba(212, 175, 55, 0.1),
+                8px 8px 0 rgba(107, 114, 128, 0.2);
+            position: relative;
+            opacity: 0;
+            transform: translateX(-100px);
+            transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .content-box.from-right {
+            transform: translateX(100px);
+        }
+
+        .content-box.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .content-box::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            border: 1px solid var(--deep-olive);
+            pointer-events: none;
+        }
+
+        .content-box h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2rem;
+            color: var(--deep-olive);
+            margin-bottom: 1.5rem;
+        }
+
+        .content-box p {
+            font-size: 1.3rem;
+            color: var(--slate-grey);
+            margin-bottom: 1.5rem;
+            line-height: 2;
+        }
+
+        .image-box {
+            position: relative;
+            overflow: hidden;
+            border: 4px solid var(--gold);
+            box-shadow: 8px 8px 0 rgba(107, 114, 128, 0.2);
+            opacity: 0;
+            transform: translateX(100px);
+            transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .image-box.from-left {
+            transform: translateX(-100px);
+        }
+
+        .image-box.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .image-box img {
+            width: 100%;
+            height: 450px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .image-box:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Calculator Section */
+        .calculator-section {
+            background: linear-gradient(135deg, var(--deep-olive), var(--slate-grey));
+            padding: 5rem 2rem;
+            border-top: 8px solid var(--gold);
+            border-bottom: 8px solid var(--gold);
+            position: relative;
+        }
+
+        .calculator-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: repeating-linear-gradient(
+                90deg,
+                var(--gold) 0px,
+                var(--gold) 20px,
+                transparent 20px,
+                transparent 40px
+            );
+        }
+
+        .calculator-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(245, 245, 245, 0.95);
+            padding: 3rem;
+            border: 4px solid var(--gold);
+            box-shadow: 
+                inset 0 0 30px rgba(212, 175, 55, 0.2),
+                12px 12px 0 rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .calculator-container::before {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            bottom: -4px;
+            border: 2px solid var(--deep-olive);
+            pointer-events: none;
+        }
+
+        .calculator-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            text-align: center;
+            color: var(--deep-olive);
+            margin-bottom: 2rem;
+        }
+
+        .calc-input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .calc-input-group label {
+            display: block;
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            color: var(--deep-olive);
+            margin-bottom: 0.5rem;
+        }
+
+        .calc-input-group input {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.1rem;
+            font-family: 'Crimson Text', serif;
+            border: 3px solid var(--gold);
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--dark-bg);
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .calc-input-group input:focus {
+            border-color: var(--deep-olive);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+        }
+
+        .calc-button {
+            width: 100%;
+            padding: 1.2rem;
+            font-family: 'Cinzel', serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            background: var(--gold);
+            color: var(--dark-bg);
+            border: 3px solid var(--deep-olive);
+            cursor: pointer;
+            position: relative;
+            box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .calc-button:hover {
+            background: var(--deep-olive);
+            color: var(--gold);
+            transform: translate(2px, 2px);
+            box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .calc-button:active {
+            transform: translate(6px, 6px);
+            box-shadow: 0 0 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .calc-result {
+            margin-top: 2rem;
+            padding: 2rem;
+            background: rgba(212, 175, 55, 0.1);
+            border: 2px solid var(--gold);
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .calc-result.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .calc-result h4 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: var(--deep-olive);
+            margin-bottom: 1rem;
+        }
+
+        .calc-result p {
+            font-size: 1.2rem;
+            color: var(--slate-grey);
+            margin-bottom: 0.5rem;
+        }
+
+        .calc-result .ratio-value {
+            font-family: 'Cinzel', serif;
+            font-size: 2rem;
+            color: var(--gold);
+            font-weight: 700;
+        }
+
+        /* Oracle Popup */
+        .oracle-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .oracle-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .oracle-popup {
+            background: linear-gradient(135deg, var(--marble-white), #E8E8E8);
+            padding: 3rem;
+            max-width: 600px;
+            border: 6px solid var(--gold);
+            box-shadow: 
+                inset 0 0 40px rgba(212, 175, 55, 0.2),
+                0 0 60px rgba(212, 175, 55, 0.5);
+            position: relative;
+            transform: scale(0.8);
+            transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .oracle-overlay.active .oracle-popup {
+            transform: scale(1);
+        }
+
+        .oracle-popup::before {
+            content: '';
+            position: absolute;
+            top: -6px;
+            left: -6px;
+            right: -6px;
+            bottom: -6px;
+            border: 3px solid var(--deep-olive);
+            pointer-events: none;
+        }
+
+        .oracle-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2rem;
+            color: var(--deep-olive);
+            text-align: center;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.05em;
+        }
+
+        .oracle-message {
+            font-size: 1.3rem;
+            color: var(--slate-grey);
+            text-align: center;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .oracle-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .oracle-btn {
+            padding: 1rem 2.5rem;
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            border: 3px solid var(--gold);
+            cursor: pointer;
+            position: relative;
+            box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .oracle-btn.yes {
+            background: var(--gold);
+            color: var(--dark-bg);
+        }
+
+        .oracle-btn.no {
+            background: var(--marble-white);
+            color: var(--deep-olive);
+        }
+
+        .oracle-btn:hover {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        /* Sticky Calculate Button */
+        .sticky-calc-btn {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            padding: 1rem 2rem;
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            background: var(--gold);
+            color: var(--dark-bg);
+            border: 3px solid var(--deep-olive);
+            cursor: pointer;
+            box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.3);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .sticky-calc-btn.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .sticky-calc-btn:hover {
+            background: var(--deep-olive);
+            color: var(--gold);
+            transform: scale(1.05);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .content-grid.reverse {
+                direction: ltr;
+            }
+
+            .content-box, .image-box {
+                transform: translateY(50px);
+            }
+
+            .content-box.visible, .image-box.visible {
+                transform: translateY(0);
+            }
+
+            .oracle-popup {
+                margin: 1rem;
+                padding: 2rem;
+            }
+
+            .oracle-buttons {
+                flex-direction: column;
+            }
+
+            .sticky-calc-btn {
+                top: auto;
+                bottom: 2rem;
+                right: 1rem;
+                padding: 0.8rem 1.5rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>The Divine Proportion</h1>
+        <p class="subtitle">The secret geometry of the Ancients</p>
+        <div class="phi-symbol">Φ</div>
+    </section>
+
+    <!-- Educational Content -->
+    <div class="container">
+        <section id="history">
+            <h2 class="section-title">The Golden Ratio</h2>
+            
+            <div class="content-grid">
+                <div class="content-box">
+                    <h3>What is Phi?</h3>
+                    <p>The Golden Ratio, denoted by the Greek letter Phi (Φ), is approximately 1.618033988749895. This mathematical constant has fascinated mathematicians, artists, and architects for millennia.</p>
+                    <p>When a line is divided into two parts, the ratio of the whole to the larger part equals the ratio of the larger part to the smaller part—this is the Golden Ratio.</p>
+                    <p>Expressed algebraically: (a + b) / a = a / b = φ. This unique property makes the Golden Ratio appear in countless natural and man-made structures throughout history.</p>
+                </div>
+                <div class="image-box">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Golden_ratio_line.svg/1200px-Golden_ratio_line.svg.png" alt="Golden ratio line division">
+                </div>
+            </div>
+
+            <div class="content-grid reverse">
+                <div class="image-box from-left">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Euclid_statue%2C_Oxford_University_Museum_of_Natural_History.jpg/800px-Euclid_statue%2C_Oxford_University_Museum_of_Natural_History.jpg" alt="Euclid statue">
+                </div>
+                <div class="content-box from-right">
+                    <h3>Ancient Origins</h3>
+                    <p>The ancient Greek mathematician Euclid first described the Golden Ratio around 300 BCE in his work "Elements." He called it the "extreme and mean ratio."</p>
+                    <p>The sculptor Phidias is believed to have used the Golden Ratio in designing the sculptures of the Parthenon, giving rise to the ratio's Greek letter name, Phi (Φ).</p>
+                    <p>Pythagoras and his followers believed that the Golden Ratio revealed the hidden harmony of the cosmos, incorporating it into their pentagram symbol—a star with each intersection creating golden ratio proportions.</p>
+                </div>
+            </div>
+
+            <div class="content-grid">
+                <div class="content-box">
+                    <h3>The Fibonacci Sequence</h3>
+                    <p>The Fibonacci sequence (0, 1, 1, 2, 3, 5, 8, 13, 21, 34...) has a magical connection to the Golden Ratio. Each number is the sum of the two preceding ones.</p>
+                    <p>As you progress through the sequence, the ratio between consecutive numbers approaches Phi more and more closely. For example: 21/13 = 1.615..., 34/21 = 1.619..., 89/55 = 1.618...</p>
+                    <p>This mathematical sequence appears throughout nature: from the arrangement of leaves on a stem, to the spirals of pinecones, to the breeding patterns of rabbits!</p>
+                </div>
+                <div class="image-box">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/FibonacciSpiral.svg/1200px-FibonacciSpiral.svg.png" alt="Fibonacci spiral">
+                </div>
+            </div>
+
+            <div class="content-grid reverse">
+                <div class="image-box from-left">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/NautilusCutawayLogarithmicSpiral.jpg/1200px-NautilusCutawayLogarithmicSpiral.jpg" alt="Nautilus shell spiral">
+                </div>
+                <div class="content-box from-right">
+                    <h3>Nature's Secret Code</h3>
+                    <p>The Golden Ratio appears throughout nature: in the spiral of seashells, the arrangement of flower petals, the branching of trees, and even in the proportions of the human body.</p>
+                    <p>The nautilus shell grows in a perfect logarithmic spiral following the Golden Ratio. Each chamber is larger than the previous one by a factor of Phi, creating nature's most elegant spiral.</p>
+                    <p>Sunflowers arrange their seeds in opposing spirals—typically 34 and 55, or 55 and 89—all consecutive Fibonacci numbers! This pattern allows the most efficient packing of seeds.</p>
+                </div>
+            </div>
+
+            <div class="content-grid">
+                <div class="content-box">
+                    <h3>The Human Form</h3>
+                    <p>Leonardo da Vinci's famous "Vitruvian Man" demonstrates how the human body embodies the Golden Ratio in countless proportions.</p>
+                    <p>The ratio of your height to the distance from your navel to the floor approximates Phi. The ratio of your forearm to your hand, your face length to its width, even the segments of your fingers—all approach the Golden Ratio.</p>
+                    <p>This divine proportion in human anatomy has been used by artists for centuries to create perfectly balanced and aesthetically pleasing representations of the human form.</p>
+                </div>
+                <div class="image-box">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Da_Vinci_Vitruve_Luc_Viatour.jpg/1200px-Da_Vinci_Vitruve_Luc_Viatour.jpg" alt="Vitruvian Man by Leonardo da Vinci">
+                </div>
+            </div>
+
+            <div class="content-grid reverse">
+                <div class="image-box from-left">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/The_Parthenon_in_Athens.jpg/1200px-The_Parthenon_in_Athens.jpg" alt="The Parthenon">
+                </div>
+                <div class="content-box from-right">
+                    <h3>Divine Architecture</h3>
+                    <p>From the Parthenon in Athens to the Great Pyramid of Giza, ancient architects incorporated the Golden Ratio to create structures of perfect harmony and beauty.</p>
+                    <p>The Parthenon's facade can be perfectly framed in a golden rectangle. The ratio of its width to height, the spacing of its columns, and even the dimensions of its interior chambers all reflect the Golden Ratio.</p>
+                    <p>The Great Pyramid of Giza has a height-to-base ratio that closely approximates Phi. Whether intentional or coincidental, this proportion contributes to the pyramid's timeless aesthetic appeal.</p>
+                </div>
+            </div>
+
+            <div class="content-grid">
+                <div class="content-box">
+                    <h3>Renaissance Masterpieces</h3>
+                    <p>Renaissance artists called it the "Divine Proportion" and used it extensively in their masterpieces, believing it held the key to aesthetic perfection and universal beauty.</p>
+                    <p>Leonardo da Vinci collaborated with mathematician Luca Pacioli on the book "De Divina Proportione" (1509), which explored the Golden Ratio's applications in art and architecture.</p>
+                    <p>Da Vinci used golden rectangles throughout his compositions, from "The Last Supper" to the "Mona Lisa," positioning key elements at golden ratio points to create subliminal harmony that draws the viewer's eye.</p>
+                </div>
+                <div class="image-box">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg/800px-Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg" alt="Mona Lisa">
+                </div>
+            </div>
+
+            <div class="content-grid reverse">
+                <div class="image-box from-left">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Domestic_goat_kid_in_capeweed.jpg/1200px-Domestic_goat_kid_in_capeweed.jpg" alt="Flower petals following Fibonacci">
+                </div>
+                <div class="content-box from-right">
+                    <h3>The Golden Angle</h3>
+                    <p>Closely related to the Golden Ratio is the "Golden Angle," approximately 137.5 degrees. This is the angle that divides a circle in the golden ratio.</p>
+                    <p>Plants use this angle when sprouting new leaves or petals. Each new growth appears 137.5 degrees around the stem from the previous one, ensuring optimal exposure to sunlight and rain.</p>
+                    <p>This same principle governs how sunflower seeds, pinecones, and pineapples arrange their scales—creating the beautiful spiral patterns we observe in nature, all following the mathematical perfection of Phi.</p>
+                </div>
+            </div>
+
+            <div class="content-grid">
+                <div class="content-box">
+                    <h3>Modern Applications</h3>
+                    <p>Today, the Golden Ratio continues to influence design across multiple disciplines—from graphic design and typography to product design and user interface layouts.</p>
+                    <p>Many modern logos incorporate golden ratio proportions: Apple, Toyota, Pepsi, and Twitter have all been designed with golden rectangles as their foundation, creating instantly recognizable and aesthetically pleasing marks.</p>
+                    <p>The ratio of 16:10 and 16:9 in modern screens approximates the Golden Ratio. Credit cards, photographs, and even social media post dimensions often reflect these proportions for maximum visual appeal.</p>
+                </div>
+                <div class="image-box">
+                    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&q=80" alt="Modern architecture with golden ratio">
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Calculator Section -->
+    <section class="calculator-section" id="calculator">
+        <div class="calculator-container">
+            <h2 class="calculator-title">⚖ The Oracle's Calculator ⚖</h2>
+            <p style="text-align: center; color: var(--slate-grey); margin-bottom: 2rem; font-size: 1.1rem;">
+                Measure two lengths and discover if they embody the Divine Proportion
+            </p>
+            
+            <div class="calc-input-group">
+                <label for="measurement-a">Measurement A (larger):</label>
+                <input type="number" id="measurement-a" placeholder="Enter larger measurement" step="any">
+            </div>
+            
+            <div class="calc-input-group">
+                <label for="measurement-b">Measurement B (smaller):</label>
+                <input type="number" id="measurement-b" placeholder="Enter smaller measurement" step="any">
+            </div>
+            
+            <button class="calc-button" onclick="calculateRatio()">Calculate Divine Ratio</button>
+            
+            <div class="calc-result" id="result">
+                <h4>The Oracle Speaks:</h4>
+                <p>Your Ratio: <span class="ratio-value" id="ratio-value">—</span></p>
+                <p>Divine Match: <span id="match-percentage">—</span></p>
+                <p id="verdict" style="font-style: italic; margin-top: 1rem;"></p>
+            </div>
+
+            <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(74, 93, 63, 0.1); border-left: 4px solid var(--deep-olive);">
+                <h4 style="font-family: 'Cinzel', serif; color: var(--deep-olive); margin-bottom: 0.5rem;">Measurement Guide:</h4>
+                <p style="color: var(--slate-grey);">Try measuring your forearm (elbow to wrist) as A and your hand (wrist to fingertips) as B. Or measure your height as A and the distance from your navel to the floor as B.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Oracle Popup -->
+    <div class="oracle-overlay" id="oracle">
+        <div class="oracle-popup">
+            <h3 class="oracle-title">⚡ The Oracle Speaks ⚡</h3>
+            <p class="oracle-message">Traveler, you have journeyed deep into the mysteries of Phi. Do you seek the Golden Ratio Calculator to test your own measurements?</p>
+            <div class="oracle-buttons">
+                <button class="oracle-btn yes" onclick="scrollToCalculator()">Yes, Take Me There</button>
+                <button class="oracle-btn no" onclick="closeOracle()">No, Continue Reading</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sticky Calculate Button -->
+    <button class="sticky-calc-btn" id="sticky-btn" onclick="scrollToCalculatorSmooth()">
+        ⚖ Calculate
+    </button>
+
+    <script>
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all content boxes and images
+        document.querySelectorAll('.content-box, .image-box').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Oracle popup logic
+        let oracleShown = false;
+        let oracleDeclined = false;
+
+        window.addEventListener('scroll', () => {
+            const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            
+            // Show oracle at 20% scroll
+            if (scrollPercent >= 20 && !oracleShown && !oracleDeclined) {
+                document.getElementById('oracle').classList.add('active');
+                oracleShown = true;
+            }
+        });
+
+        function scrollToCalculator() {
+            document.getElementById('oracle').classList.remove('active');
+            document.getElementById('calculator').scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        function closeOracle() {
+            document.getElementById('oracle').classList.remove('active');
+            oracleDeclined = true;
+            // Show sticky button
+            setTimeout(() => {
+                document.getElementById('sticky-btn').classList.add('show');
+            }, 300);
+        }
+
+        function scrollToCalculatorSmooth() {
+            document.getElementById('calculator').scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        // Calculator logic
+        const PHI = 1.618033988749895;
+
+        function calculateRatio() {
+            const a = parseFloat(document.getElementById('measurement-a').value);
+            const b = parseFloat(document.getElementById('measurement-b').value);
+            
+            if (isNaN(a) || isNaN(b) || a <= 0 || b <= 0) {
+                alert('Please enter valid positive numbers for both measurements.');
+                return;
+            }
+
+            if (a <= b) {
+                alert('Measurement A should be larger than Measurement B.');
+                return;
+            }
+
+            const ratio = a / b;
+            const difference = Math.abs(ratio - PHI);
+            const matchPercentage = Math.max(0, (1 - (difference / PHI)) * 100);
+
+            document.getElementById('ratio-value').textContent = ratio.toFixed(6);
+            document.getElementById('match-percentage').textContent = matchPercentage.toFixed(2) + '%';
+
+            let verdict = '';
+            if (matchPercentage >= 98) {
+                verdict = '✨ Divine perfection! Your measurements embody the sacred ratio of the cosmos!';
+            } else if (matchPercentage >= 90) {
+                verdict = '⭐ Excellent! Your proportions closely align with the Golden Ratio.';
+            } else if (matchPercentage >= 75) {
+                verdict = '🌟 Good! Your measurements show harmony with nature\'s design.';
+            } else if (matchPercentage >= 50) {
+                verdict = '🔱 Fair. There is some resonance with the Divine Proportion.';
+            } else {
+                verdict = '📐 Your measurements diverge from Phi, but all proportions have their place in nature\'s tapestry.';
+            }
+
+            document.getElementById('verdict').textContent = verdict;
+            document.getElementById('result').classList.add('show');
+        }
+
+        // Allow Enter key to calculate
+        document.getElementById('measurement-b').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                calculateRatio();
+            }
+        });
+    </script>
+</body>
+</html>

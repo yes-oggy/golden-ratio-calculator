@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Divine Proportion | Golden Ratio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap');
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #050505;
+            color: #e0e0e0;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, .divine-font {
+            font-family: 'Cinzel', serif;
+        }
+
+        /* Futuristic Background */
+        .bg-universe {
+            background: radial-gradient(circle at center, #1a1a2e 0%, #000000 100%);
+            position: relative;
+        }
+        
+        .bg-universe::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: 
+                linear-gradient(rgba(212, 175, 55, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(212, 175, 55, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Gold Text Gradient */
+        .text-gold-gradient {
+            background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* Scroll Animation Classes */
+        .reveal {
+            opacity: 0;
+            transition: all 1.2s cubic-bezier(0.17, 0.55, 0.55, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .from-left { transform: translateX(-100px); }
+        .from-right { transform: translateX(100px); }
+        .from-bottom { transform: translateY(50px); }
+
+        /* Glassmorphism */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Custom Range Slider */
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #D4AF37;
+            cursor: pointer;
+            margin-top: -8px;
+        }
+        
+        /* Floating Particles */
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #D4AF37;
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) translateX(0); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
+        }
+
+        /* Sticky Button Animation */
+        .sticky-btn-enter {
+            animation: slideDown 0.5s ease-out forwards;
+        }
+        @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-universe">
+
+    <!-- Floating Navigation (Hidden initially, appears if user clicks No) -->
+    <button id="stickyCalcBtn" onclick="scrollToCalculator()" class="hidden fixed top-6 right-6 z-50 bg-black/80 border border-[#D4AF37] text-[#D4AF37] px-6 py-2 rounded-full hover:bg-[#D4AF37] hover:text-black transition-all duration-300 divine-font font-bold shadow-[0_0_15px_rgba(212,175,55,0.3)]">
+        <i class="fas fa-calculator mr-2"></i> Calculate
+    </button>
+
+    <!-- Hero Section -->
+    <section class="relative h-screen flex items-center justify-center overflow-hidden">
+        <!-- Dynamic Particles -->
+        <div id="particles"></div>
+        
+        <div class="text-center z-10 px-4">
+            <h2 class="text-[#D4AF37] tracking-[0.5em] text-sm mb-4 uppercase animate-pulse">Sacred Geometry</h2>
+            <h1 class="text-6xl md:text-8xl font-bold mb-6 text-gold-gradient drop-shadow-lg">The Golden Ratio</h1>
+            <p class="text-xl md:text-2xl text-gray-300 max-w-2xl mx-auto font-light mb-10">
+                Unlocking the mathematical secret of beauty. <br>
+                <span class="text-[#D4AF37] font-mono">φ ≈ 1.61803398875</span>
+            </p>
+            <div class="animate-bounce mt-10">
+                <i class="fas fa-chevron-down text-[#D4AF37] text-3xl"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- Content Container -->
+    <div class="max-w-7xl mx-auto px-6 py-20 space-y-32">
+
+        <!-- Section 1: What is it? (Slide Right) -->
+        <section class="grid md:grid-cols-2 gap-12 items-center">
+            <div class="reveal from-left">
+                <h2 class="text-4xl text-[#D4AF37] mb-6">The Divine Proportion</h2>
+                <p class="text-gray-300 leading-relaxed text-lg mb-6">
+                    The Golden Ratio is a special number found by dividing a line into two parts so that the longer part divided by the smaller part is also equal to the whole length divided by the longer part.
+                </p>
+                <p class="text-gray-400">
+                    It is often symbolized using phi (<span class="font-serif italic text-[#D4AF37]">φ</span>), after the 21st letter of the Greek alphabet.
+                </p>
+            </div>
+            <div class="reveal from-right relative group">
+                <div class="absolute -inset-1 bg-gradient-to-r from-[#D4AF37] to-purple-900 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
+                <!-- Image Placeholder: Fibonacci Spiral -->
+                <div class="relative bg-black rounded-lg overflow-hidden h-80 border border-[#D4AF37]/30 flex items-center justify-center">
+                     <svg viewBox="0 0 100 100" class="w-full h-full opacity-50 stroke-[#D4AF37] fill-none stroke-2">
+                        <path d="M 50 50 m -40 0 a 40 40 0 1 0 80 0 a 40 40 0 1 0 -80 0" />
+                        <path d="M10,50 Q10,10 50,10 T90,50 T50,90" stroke-dasharray="5,5"/>
+                        <!-- Representing a spiral abstractly -->
+                        <path d="M50,50 L90,50 A40,40 0 0,1 50,90 A40,40 0 0,1 10,50 A40,40 0 0,1 50,10 A40,40 0 0,1 75,35" />
+                    </svg>
+                    <span class="absolute text-[#D4AF37] divine-font text-xl tracking-widest">The Spiral</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: History & Origins (Slide Left) -->
+        <section class="grid md:grid-cols-2 gap-12 items-center">
+            <div class="reveal from-left order-2 md:order-1 relative group">
+                <div class="absolute -inset-1 bg-gradient-to-r from-blue-900 to-[#D4AF37] rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-1000"></div>
+                <!-- Image Placeholder: Parthenon/Architecture -->
+                <div class="relative bg-black rounded-lg overflow-hidden h-80 border border-[#D4AF37]/30 flex items-center justify-center">
+                    <svg class="w-full h-full p-10 stroke-[#D4AF37] fill-none stroke-1" viewBox="0 0 200 100">
+                        <rect x="20" y="40" width="160" height="60" />
+                        <path d="M20,40 L100,10 L180,40" />
+                        <line x1="30" y1="40" x2="30" y2="100" />
+                        <line x1="50" y1="40" x2="50" y2="100" />
+                        <line x1="70" y1="40" x2="70" y2="100" />
+                        <line x1="130" y1="40" x2="130" y2="100" />
+                        <line x1="150" y1="40" x2="150" y2="100" />
+                        <line x1="170" y1="40" x2="170" y2="100" />
+                    </svg>
+                    <span class="absolute text-[#D4AF37] divine-font text-xl tracking-widest bottom-4">Ancient Architecture</span>
+                </div>
+            </div>
+            <div class="reveal from-right order-1 md:order-2">
+                <h2 class="text-4xl text-[#D4AF37] mb-6">Echoes of Antiquity</h2>
+                <p class="text-gray-300 leading-relaxed text-lg mb-6">
+                    From the Great Pyramids of Giza to the Parthenon in Greece, ancient architects believed this ratio created aesthetically pleasing structures. 
+                </p>
+                <p class="text-gray-400">
+                    Later, mathematician Leonardo Fibonacci described the series of numbers (0, 1, 1, 2, 3, 5, 8, 13...) where the ratio of consecutive numbers converges to <span class="text-[#D4AF37]">1.618</span>.
+                </p>
+            </div>
+        </section>
+
+        <!-- Section 3: Art & Design (New Content) -->
+        <section class="grid md:grid-cols-2 gap-12 items-center">
+             <div class="reveal from-left">
+                <h2 class="text-4xl text-[#D4AF37] mb-6">Masterpieces & Logos</h2>
+                <p class="text-gray-300 leading-relaxed text-lg mb-6">
+                    Artists like Leonardo da Vinci used the Golden Ratio to define the proportions of the "Mona Lisa" and "The Last Supper." Today, it shapes the design of modern logos like Twitter, Apple, and Pepsi.
+                </p>
+                <ul class="space-y-4 mt-6">
+                    <li class="flex items-center text-gray-400">
+                        <i class="fas fa-paint-brush text-[#D4AF37] mr-4"></i> Visual Balance in Art
+                    </li>
+                    <li class="flex items-center text-gray-400">
+                        <i class="fab fa-apple text-[#D4AF37] mr-4"></i> Iconic Logo Geometry
+                    </li>
+                    <li class="flex items-center text-gray-400">
+                        <i class="fas fa-camera text-[#D4AF37] mr-4"></i> Photography Composition
+                    </li>
+                </ul>
+            </div>
+            <div class="reveal from-right relative group">
+                <div class="absolute -inset-1 bg-gradient-to-r from-purple-900 to-[#D4AF37] rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-1000"></div>
+                <div class="relative bg-black rounded-lg overflow-hidden h-80 border border-[#D4AF37]/30 flex items-center justify-center">
+                     <!-- Abstract Art representation -->
+                    <svg class="w-full h-full opacity-60" viewBox="0 0 200 200">
+                        <rect x="50" y="50" width="100" height="100" stroke="#D4AF37" fill="none" stroke-width="1"/>
+                        <circle cx="100" cy="80" r="40" stroke="#D4AF37" fill="none" stroke-width="1"/>
+                        <line x1="50" y1="50" x2="150" y2="150" stroke="#D4AF37" stroke-width="0.5"/>
+                        <line x1="150" y1="50" x2="50" y2="150" stroke="#D4AF37" stroke-width="0.5"/>
+                        <text x="100" y="180" text-anchor="middle" fill="#D4AF37" font-family="Cinzel" font-size="12">Mona Lisa</text>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- Parallax Quote Section (New Content) -->
+        <section class="reveal from-bottom py-20 text-center relative">
+            <div class="absolute inset-0 flex items-center justify-center opacity-10">
+                <i class="fas fa-quote-left text-9xl text-[#D4AF37]"></i>
+            </div>
+            <blockquote class="relative z-10 max-w-4xl mx-auto">
+                <p class="text-3xl md:text-5xl font-light italic text-gray-200 leading-tight mb-8">
+                    "Mathematics is the language in which God has written the universe."
+                </p>
+                <cite class="text-[#D4AF37] text-xl divine-font uppercase tracking-widest">— Galileo Galilei</cite>
+            </blockquote>
+        </section>
+
+        <!-- Section 4: Nature (Center Rise) -->
+        <section class="text-center reveal from-bottom">
+            <h2 class="text-4xl text-[#D4AF37] mb-12">Nature's Blueprint</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="glass-card p-6 rounded-xl hover:bg-white/5 transition duration-300">
+                    <div class="h-40 mb-4 bg-black/50 rounded flex items-center justify-center text-[#D4AF37]">
+                        <i class="fas fa-leaf text-5xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Botany</h3>
+                    <p class="text-sm text-gray-400">The arrangement of leaves and petals often follows the Fibonacci sequence to maximize sunlight.</p>
+                </div>
+                <!-- Card 2 -->
+                <div class="glass-card p-6 rounded-xl hover:bg-white/5 transition duration-300">
+                    <div class="h-40 mb-4 bg-black/50 rounded flex items-center justify-center text-[#D4AF37]">
+                        <i class="fas fa-globe-americas text-5xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Hurricanes</h3>
+                    <p class="text-sm text-gray-400">Storm systems and galaxies form logarithmic spirals that match the Golden Spiral perfectly.</p>
+                </div>
+                <!-- Card 3 -->
+                <div class="glass-card p-6 rounded-xl hover:bg-white/5 transition duration-300">
+                    <div class="h-40 mb-4 bg-black/50 rounded flex items-center justify-center text-[#D4AF37]">
+                        <i class="fas fa-hand-sparkles text-5xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Human Body</h3>
+                    <p class="text-sm text-gray-400">The ratio of the forearm to the hand, or the total height to the navel height, approximates Phi.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Calculator Section (Anchor) -->
+        <section id="calculator-section" class="py-20">
+            <div class="glass-card rounded-3xl p-8 md:p-12 border border-[#D4AF37] relative overflow-hidden">
+                <!-- Decorative bg element -->
+                <div class="absolute top-0 right-0 w-64 h-64 bg-[#D4AF37] opacity-5 rounded-full blur-3xl translate-x-1/2 -translate-y-1/2"></div>
+
+                <div class="relative z-10 grid lg:grid-cols-2 gap-12">
+                    
+                    <!-- Instructions -->
+                    <div>
+                        <h2 class="text-4xl text-[#D4AF37] mb-6"><i class="fas fa-calculator mr-3"></i>Golden Ratio Calculator</h2>
+                        <p class="text-gray-300 mb-6">Measure any object or body part to see how close it is to divine perfection.</p>
+                        
+                        <!-- Visual Guide for Hand Measurement -->
+                        <div class="bg-black/50 rounded-lg p-4 mb-6 border border-gray-800 flex items-center space-x-4">
+                            <div class="w-24 h-32 flex-shrink-0 relative">
+                                <!-- SVG Hand Diagram -->
+                                <svg viewBox="0 0 100 150" class="w-full h-full stroke-[#D4AF37] fill-none stroke-2">
+                                    <!-- Simple Hand Outline -->
+                                    <path d="M30,140 L30,100 L15,90 L10,70 L20,65 L30,80 L30,50 L40,40 L50,50 L50,30 L60,20 L70,30 L70,40 L80,35 L90,45 L80,70 L80,100 L80,140" stroke-linejoin="round"/>
+                                    <!-- Line A: Total Hand Length -->
+                                    <line x1="95" y1="20" x2="95" y2="100" stroke="white" stroke-width="1" stroke-dasharray="2"/>
+                                    <text x="85" y="60" fill="white" font-size="10">A</text>
+                                    <!-- Line B: Palm/Finger -->
+                                    <line x1="5" y1="20" x2="5" y2="70" stroke="white" stroke-width="1" stroke-dasharray="2"/>
+                                    <text x="8" y="45" fill="white" font-size="10">B</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="text-[#D4AF37] font-bold text-sm uppercase mb-1">Try Your Hand</h4>
+                                <p class="text-xs text-gray-400">
+                                    Measure your full hand length (A) vs. your middle finger length (B). <br>
+                                    Or: Forearm length (A) vs Hand length (B).
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-4 mb-8">
+                            <h3 class="text-xl font-bold text-white">How to Measure:</h3>
+                            <div class="flex items-start space-x-3">
+                                <span class="bg-[#D4AF37] text-black w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold mt-1">1</span>
+                                <p class="text-sm text-gray-400">Take a total length (A) (e.g., entire hand length).</p>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <span class="bg-[#D4AF37] text-black w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold mt-1">2</span>
+                                <p class="text-sm text-gray-400">Measure the larger segment (B) (e.g., middle finger length).</p>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <span class="bg-[#D4AF37] text-black w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold mt-1">3</span>
+                                <p class="text-sm text-gray-400">Input the values below. <br><em class="text-xs opacity-70">Example: Total arm length vs. Elbow to wrist.</em></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- The Calculator -->
+                    <div class="bg-black/40 p-8 rounded-xl border border-gray-800">
+                        <div class="space-y-6">
+                            <div>
+                                <label class="block text-[#D4AF37] text-sm uppercase tracking-wider mb-2">Larger Length (A)</label>
+                                <input type="number" id="inputA" placeholder="e.g. 19 (cm)" class="w-full bg-gray-900 border border-gray-700 rounded p-3 text-white focus:border-[#D4AF37] focus:outline-none transition">
+                            </div>
+                            <div>
+                                <label class="block text-[#D4AF37] text-sm uppercase tracking-wider mb-2">Smaller Length (B)</label>
+                                <input type="number" id="inputB" placeholder="e.g. 11.5 (cm)" class="w-full bg-gray-900 border border-gray-700 rounded p-3 text-white focus:border-[#D4AF37] focus:outline-none transition">
+                            </div>
+
+                            <button onclick="calculateRatio()" class="w-full bg-[#D4AF37] text-black font-bold py-4 rounded hover:bg-[#b38e2d] transition duration-300 uppercase tracking-widest shadow-[0_0_20px_rgba(212,175,55,0.4)]">
+                                Analyze Proportion
+                            </button>
+
+                            <!-- Results -->
+                            <div id="resultContainer" class="hidden mt-6 pt-6 border-t border-gray-800 text-center">
+                                <p class="text-gray-400 text-sm">Your Ratio</p>
+                                <div id="userRatioDisplay" class="text-4xl font-bold text-white mb-2">1.618</div>
+                                <p id="percentageText" class="text-[#D4AF37] font-bold text-lg mb-4">99% Golden Match</p>
+                                
+                                <!-- Bar -->
+                                <div class="w-full bg-gray-800 h-4 rounded-full overflow-hidden relative">
+                                    <div id="goldBar" class="h-full bg-gradient-to-r from-[#D4AF37] to-yellow-200 w-0 transition-all duration-1000"></div>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-2">Target: 1.618</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-black py-10 text-center border-t border-[#D4AF37]/20">
+        <p class="text-gray-500">Designed for the Future. &copy; 2023 Golden Ratio Project.</p>
+    </footer>
+
+    <!-- Interactive Modal -->
+    <div id="discoveryModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-500">
+        <div class="glass-card p-8 md:p-12 rounded-2xl max-w-md w-full mx-4 transform scale-95 transition-transform duration-500" id="modalContent">
+            <div class="text-center">
+                <div class="w-16 h-16 bg-[#D4AF37]/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-compass text-[#D4AF37] text-2xl"></i>
+                </div>
+                <h3 class="text-2xl divine-font text-white mb-4">Discover Perfection?</h3>
+                <p class="text-gray-300 mb-8">Would you like to access the Golden Ratio Calculator to test your own surroundings?</p>
+                
+                <div class="flex space-x-4 justify-center">
+                    <button onclick="handleModalResponse(false)" class="px-6 py-2 border border-gray-600 text-gray-300 rounded hover:bg-gray-800 transition">
+                        No, keep reading
+                    </button>
+                    <button onclick="handleModalResponse(true)" class="px-6 py-2 bg-[#D4AF37] text-black font-bold rounded hover:bg-[#b38e2d] shadow-[0_0_15px_rgba(212,175,55,0.4)] transition">
+                        Yes, calculate
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. Scroll Animations (Intersection Observer) ---
+        const observerOptions = {
+            threshold: 0.15, // Trigger when 15% visible
+            rootMargin: "0px"
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
+
+        // --- 2. Particle Background Generator ---
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = 30;
+            
+            for(let i = 0; i < particleCount; i++) {
+                const part = document.createElement('div');
+                part.classList.add('particle');
+                // Random positioning
+                part.style.left = Math.random() * 100 + 'vw';
+                part.style.top = Math.random() * 100 + 'vh';
+                // Random animation duration and delay
+                part.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                part.style.animationDelay = (Math.random() * 5) + 's';
+                container.appendChild(part);
+            }
+        }
+        createParticles();
+
+        // --- 3. Modal Logic ---
+        const modal = document.getElementById('discoveryModal');
+        const modalContent = document.getElementById('modalContent');
+        let hasModalShown = false;
+
+        // Show modal automatically on scroll
+        window.addEventListener('scroll', () => {
+            if (hasModalShown) return;
+            
+            // Trigger at 25% of page height
+            const scrollPercent = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+            
+            if (scrollPercent > 25) {
+                showModal();
+                hasModalShown = true;
+            }
+        });
+
+        function showModal() {
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modalContent.classList.remove('scale-95');
+            modalContent.classList.add('scale-100');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling while modal is open
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modalContent.classList.remove('scale-100');
+            modalContent.classList.add('scale-95');
+            document.body.style.overflow = 'auto';
+        }
+
+        function handleModalResponse(accepted) {
+            closeModal();
+            
+            if (accepted) {
+                // Scroll to calculator
+                scrollToCalculator();
+            } else {
+                // Show Sticky Button
+                const btn = document.getElementById('stickyCalcBtn');
+                btn.classList.remove('hidden');
+                btn.classList.add('sticky-btn-enter');
+            }
+        }
+
+        function scrollToCalculator() {
+            const calcSection = document.getElementById('calculator-section');
+            calcSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // --- 4. Calculator Logic ---
+        function calculateRatio() {
+            const a = parseFloat(document.getElementById('inputA').value);
+            const b = parseFloat(document.getElementById('inputB').value);
+            const resultContainer = document.getElementById('resultContainer');
+            const ratioDisplay = document.getElementById('userRatioDisplay');
+            const bar = document.getElementById('goldBar');
+            const pctText = document.getElementById('percentageText');
+
+            if (!a || !b || b === 0) {
+                alert("Please enter valid numbers for both lengths.");
+                return;
+            }
+
+            // Logic: Golden Ratio (Phi) is approx 1.618
+            // User ratio = Larger / Smaller
+            const larger = Math.max(a, b);
+            const smaller = Math.min(a, b);
+            const userRatio = larger / smaller;
+            const phi = 1.61803398875;
+
+            // Calculate closeness (Percentage Match)
+            // Formula: 100 - (Difference / Phi * 100). 
+            // If difference is huge, clamp to 0.
+            const diff = Math.abs(userRatio - phi);
+            let percentage = Math.max(0, 100 - (diff * 100)); // Simplified accuracy curve
+            
+            // Display
+            resultContainer.classList.remove('hidden');
+            ratioDisplay.innerText = userRatio.toFixed(4);
+            
+            // Color Logic based on result
+            if (percentage > 90) {
+                pctText.innerText = `${percentage.toFixed(1)}% - Divine Perfection!`;
+                pctText.style.color = "#D4AF37";
+            } else if (percentage > 70) {
+                pctText.innerText = `${percentage.toFixed(1)}% - Very Close`;
+                pctText.style.color = "#fff";
+            } else {
+                pctText.innerText = `${percentage.toFixed(1)}% - Keep Measuring`;
+                pctText.style.color = "#9ca3af";
+            }
+
+            // Animate Bar
+            setTimeout(() => {
+                bar.style.width = `${percentage}%`;
+            }, 100);
+        }
+    </script>
+</body>
+</html>
